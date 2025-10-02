@@ -16,4 +16,4 @@
 ### shellcode部分主要多层混淆处理 使用的是XOR+RC4+base64+mac多层处理，最后是mac地址格式存在是windows对mac格式字符串有一定的宽容性。 
 
 ## 使用方法
-### 先使用
+### 先使用encode.cpp对shellcode进行加密，如果把shellcode写道exe里请在
