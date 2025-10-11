@@ -19,3 +19,30 @@
 ### 先使用encode.cpp对shellcode进行加密，如果把shellcode写道exe里请在Unseparation_shellcode.cpp的mac_shellcode数组里。如果想实现参数分离可以使用我编译好的exe+shellcode运行即可
 
 #### 感谢阅读
+
+
+
+### English version
+
+
+
+This is a Trojan sample that can bypass the vast majority of antivirus software and sandboxes. Below, I will explain the technologies involved in the Trojan, focusing on both the shellcode and the loader.
+
+## Loader Section
+### 1. Anti-sandbox
+It is well-known that the conventional detection of anti-sandbox functions is based on operations on the host's CPU, memory, hard disk, etc. However, I personally think this approach is not ideal because some antivirus software or cloud sandboxes will monitor anti-sandbox functions and keep an eye on sensitive APIs, which may lead to detection. Therefore, my idea is to detect desktop shortcuts, such as those for commonly used software like QQ, WeChat, and DingTalk, to evade cloud sandboxes. <img width="1918" height="990" alt="vt" src="https://github.com/user-attachments/assets/f6c4d58e-374d-428f-bf0b-73c3ef8233e8" />
+
+
+### 2. Overloading of ntdll and Dynamic Invocation of APIs 
+
+The detection mechanism of general anti-virus software is to hook some sensitive APIs. Therefore, we can bypass the hooks and achieve the function by using the ntdll overloading and dynamic API calling techniques. The ntdll overloading part involves loading the original ntdll.dll from the system directory and replacing the hooked ntdll code segment (.text segment) in the current process with the original code. The dynamic API calling is to traverse the export table of the target dll, match the function name using hash, obtain the address of the target function, and execute it using a pointer. 
+
+### 3. Separation of Shellcode and Loader
+#### Besides encoding to bypass antivirus software, shellcode can also be separated from the loader. If the shellcode is not included in the exe file, it becomes quite difficult for antivirus software to detect any issues. 
+
+The shellcode section mainly undergoes multi-layer obfuscation processing, which involves XOR, RC4, base64, and MAC. The final output is in MAC address format, taking advantage of Windows' tolerance for MAC format strings. 
+
+## Usage Method
+### First, use encode.cpp to encrypt the shellcode. If you write the shellcode into an exe file, please place it in the mac_shellcode array in Unseparation_shellcode.cpp. If you want to achieve parameter separation, you can run the compiled exe + shellcode directly. 
+
+Thank you for reading.
